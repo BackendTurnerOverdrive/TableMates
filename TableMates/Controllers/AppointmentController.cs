@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -8,6 +9,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Results;
+using System.Web.Mvc;
 using TableMates.DAL;
 using TableMates.Models;
 
@@ -18,10 +21,19 @@ namespace TableMates.Controllers
         private TablematesContext db = new TablematesContext();
 
         // GET: api/Appointment
-        public IQueryable<Appointment> GetAppointments()
+        public Appointment[] GetAppointments()
         {
-            return db.Appointments;
+            var content = db.Appointments;
+            return db.Appointments.ToArray();
         }
+
+        //public JsonResult GetJson()
+        //{
+        //    string yourJson = JsonConvert.SerializeObject(db.Appointments);
+        //    var response = this.Request.CreateResponse(HttpStatusCode.OK);
+        //    response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+        //    return response;
+        //}
 
         // GET: api/Appointment/5
         [ResponseType(typeof(Appointment))]
