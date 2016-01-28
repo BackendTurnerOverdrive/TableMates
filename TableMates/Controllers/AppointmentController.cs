@@ -23,7 +23,6 @@ namespace TableMates.Controllers
         // GET: api/Appointment
         public Appointment[] GetAppointments()
         {
-            var content = db.Appointments;
             return db.Appointments.ToArray();
         }
 

@@ -38,7 +38,7 @@ namespace TableMates.Controllers
 
         // PUT: api/User/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutUser(string id, User user)
+        public IHttpActionResult PutUser(int id, User user)
         {
             if (!ModelState.IsValid)
             {
@@ -126,7 +126,7 @@ namespace TableMates.Controllers
             base.Dispose(disposing);
         }
 
-        private bool UserExists(string id)
+        private bool UserExists(int id)
         {
             return db.Users.Count(e => e.ID == id) > 0;
         }
