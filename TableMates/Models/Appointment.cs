@@ -12,7 +12,7 @@ namespace TableMates.Models
         public int ID { get; set; }
         public float Lat { get; set; }
         public float Lng { get; set; }
-        [Required,]
+        [Required]
         public int MinAttendees { get; set; }
         public int? MaxAttendees { get; set; }
         [Required]
@@ -21,7 +21,7 @@ namespace TableMates.Models
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime AppointmentDate { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
+        public virtual User[] Users { get; set; }
 
     }
 }

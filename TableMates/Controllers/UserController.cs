@@ -18,16 +18,16 @@ namespace TableMates.Controllers
         private TablematesContext db = new TablematesContext();
 
         // GET: api/User
-        public IQueryable<User> GetUsers()
+        public User[] GetUsers()
         {
-            return db.Users;
+            return db.Users.ToArray();
         }
 
         // GET: api/User/5
         [ResponseType(typeof(User))]
-        public IHttpActionResult GetUser(string id)
+        public IHttpActionResult GetUser(string username)
         {
-            User user = db.Users.Find(id);
+            User user = db.Users.Find(username);
             if (user == null)
             {
                 return NotFound();
@@ -38,14 +38,14 @@ namespace TableMates.Controllers
 
         // PUT: api/User/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutUser(int id, User user)
+        public IHttpActionResult PutUser(string id, User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != user.ID)
+            if (id != user.username)
             {
                 return BadRequest();
             }
@@ -71,6 +71,18 @@ namespace TableMates.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        private bool UserExists(string id)
+        {
+            if (db.Users.Find(id) != null)
+            {
+                throw new NotImplementedException();
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         // POST: api/User
         [ResponseType(typeof(User))]
         public IHttpActionResult PostUser(User user)
@@ -88,7 +100,7 @@ namespace TableMates.Controllers
             }
             catch (DbUpdateException)
             {
-                if (UserExists(user.ID))
+                if (UserExists(user.username))
                 {
                     return Conflict();
                 }
@@ -98,12 +110,12 @@ namespace TableMates.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = user.ID }, user);
+            return CreatedAtRoute("DefaultApi", new { username = user.username }, user);
         }
 
         // DELETE: api/User/5
         [ResponseType(typeof(User))]
-        public IHttpActionResult DeleteUser(string id)
+        public IHttpActionResult DeleteUser(int id)
         {
             User user = db.Users.Find(id);
             if (user == null)
@@ -126,9 +138,5 @@ namespace TableMates.Controllers
             base.Dispose(disposing);
         }
 
-        private bool UserExists(int id)
-        {
-            return db.Users.Count(e => e.ID == id) > 0;
-        }
     }
 }
